@@ -1,0 +1,15 @@
+# Node Modules 
+node_modules/
+
+
+# Build Output
+dist/
+build/
+
+# Environment Variable
+.env
+.env.local
+
+
+.eslintcache
+.prettiercache

@@ -47,3 +47,26 @@ bookRoutes.get('/', async (req:Request, res:Response)=> {
         })
     }
 })
+
+
+
+bookRoutes.get('/:bookId', async (req:Request, res:Response)=> {
+    try {
+        const bookId = req.params.bookId
+        const book = await Book.findOne({_id : bookId})
+
+        res.status(201).json({
+            success: true,
+            message: "Books has Received",
+            book
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success: false,
+            message: 'Your Book Not Found',
+            error
+        })
+    }
+})

@@ -30,7 +30,7 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
 bookRoutes.get('/', async (req:Request, res:Response)=> {
     try {
         const book = await Book.find()
-        console.log("Book Received : ", book)
+        // console.log("Book Received : ", book)
 
         res.status(201).json({
             success: true,
@@ -58,6 +58,29 @@ bookRoutes.get('/:bookId', async (req:Request, res:Response)=> {
         res.status(201).json({
             success: true,
             message: "Books has Received",
+            book
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success: false,
+            message: 'Your Book Not Found',
+            error
+        })
+    }
+})
+
+
+bookRoutes.patch('/:bookId', async (req:Request, res:Response)=> {
+    try {
+        const bookId = req.params.bookId;
+        const updatedBody = req.body;
+        const book = await Book.findByIdAndUpdate(bookId, updatedBody, {new: true})
+
+        res.status(201).json({
+            success: true,
+            message: "Books has Updated with data",
             book
         })
         

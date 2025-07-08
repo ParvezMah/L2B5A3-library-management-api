@@ -93,3 +93,24 @@ bookRoutes.patch('/:bookId', async (req:Request, res:Response)=> {
         })
     }
 })
+
+bookRoutes.delete('/:bookId', async (req:Request, res:Response)=> {
+    try {
+        const bookId = req.params.bookId;
+        const deletedBook = await Book.findByIdAndDelete(bookId)
+
+        res.status(201).json({
+            success: true,
+            message: "Your Book has Deleted",
+            deletedBook
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success: false,
+            message: 'Your Book Not Found to Delete',
+            error
+        })
+    }
+})

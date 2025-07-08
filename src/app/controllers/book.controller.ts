@@ -1,0 +1,49 @@
+import expres, { Request, Response, response } from "express"
+import { Book } from "../models/book.model";
+
+
+export const bookRoutes = expres.Router();
+
+
+bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
+    try {
+        const body = req.body;
+        const book = await Book.create(body)
+
+        res.status(201).json({
+            success: true,
+            message: "Book has Created",
+            book
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success: false,
+            message: 'Creating book has failed',
+            error
+        })
+    }
+})
+
+
+bookRoutes.get('/', async (req:Request, res:Response)=> {
+    try {
+        const book = await Book.find()
+        console.log("Book Received : ", book)
+
+        res.status(201).json({
+            success: true,
+            message: "Books has Received",
+            book
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            success: false,
+            message: 'Creating book has failed',
+            error
+        })
+    }
+})

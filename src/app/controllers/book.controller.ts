@@ -29,20 +29,32 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
 
 bookRoutes.get('/', async (req:Request, res:Response)=> {
     try {
-        const book = await Book.find()
+        const {filter, sortBy='createdAt', sort='desc', limit='4', page='1'} = req.query;
+        console.log("ReqQuery : ", req.query);
+
+        const filterQuery = filter ? {genre: filter} : {};
+        const pageNumber = parseInt(page as string) || 1;
+        const limitNumber = parseInt(limit as string) || 10;
+        const skipPage = (pageNumber-1)* limitNumber;
+
+        const books = await Book.find(filterQuery)
+        .sort({[sortBy as string]: sort==='desc'? -1 : 1})
+        .skip(skipPage)
+        .limit(limitNumber);
+        console.log('Filtered Book : ', books)
         // console.log("Book Received : ", book)
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Books has Received",
-            book
+            books
         })
         
     } catch (error) {
         console.log(error)
         res.status(400).json({
             success: false,
-            message: 'Creating book has failed',
+            message: 'Book Retrieving has failed',
             error
         })
     }

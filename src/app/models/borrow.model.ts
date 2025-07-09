@@ -5,11 +5,11 @@ const borrowSchema = new Schema<IBorrow>({
     book: {
         type: Schema.Types.ObjectId,
         ref: 'Book',
-        required: [true, "Book reference is mandatory"],
+        required: [true, "Put References so that anyone can borrow by book's ID"],
     },
     quantity: {
         type: Number,
-        required: [true, "Quantity is mandatory"],
+        required: [true, "Positive Number Representing mandatory"],
         min : [1, "It Contains at least 1"],
     },
     dueDate: {

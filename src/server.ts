@@ -2,16 +2,20 @@ import { Server } from "http";
 import app from "./app";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
-const PORT = 3000;
+
+const PORT = process.env.PORT || 5000;
+
 let server: Server;
 
 
 async function main(){
     try {
-        await mongoose.connect('mongodb+srv://librarymanagementapi:librarymanagementapi@librarymanagementapi.lf7sw63.mongodb.net/?retryWrites=true&w=majority&appName=librarymanagementapi');
-        console.log("Connected to MongoDB")
+        await mongoose.connect(process.env.MONGO_URI as string);
         app.listen(PORT, ()=> {
             console.log(`Library management API is running on : ${PORT}`)
         })

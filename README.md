@@ -5,7 +5,7 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
 ## Features
 
 ### Book Management
-- **Create a book**
+- **Create a book** - `
 - **Get all books** with filtering, sorting, and pagination
 - **Get a book information**
 - **Update book information**

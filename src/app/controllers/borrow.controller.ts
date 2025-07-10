@@ -46,8 +46,14 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
             data: borrowRecord
         })
         
-    } catch (error) {
-        console.log(error);
+    } catch (error: any) {
+        if(error.name  === "ValidationError"){
+            return res.status(400).json({
+                message: 'Validation Failed',
+                success : false,
+                error: error,
+            });
+        }
         return res.status(400).json({
             success: false,
             message: 'Borrowing book failed',

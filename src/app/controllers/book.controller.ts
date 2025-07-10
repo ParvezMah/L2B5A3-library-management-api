@@ -1,8 +1,8 @@
-import expres, { Request, Response, response } from "express"
+import express, { Request, Response, response } from "express"
 import { Book } from "../models/book.model";
 
 
-export const bookRoutes = expres.Router();
+export const bookRoutes = express.Router();
 
 
 bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
@@ -16,8 +16,15 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
             book
         })
         
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        if(error.name === "ValidationError"){
+            return res.status(400).json({
+                message: 'Validation Failed',
+                success : false,
+                error: error,
+            });
+        }
+        
         res.status(400).json({
             success: false,
             message: 'Creating book has failed',
@@ -97,10 +104,10 @@ bookRoutes.put('/:bookId', async (req:Request, res:Response)=> {
             })
         }
 
-        res.status(201).json({
+        res.status(200).json({
             success: true,
             message: "Book has Updated with data",
-            updatedbook
+            data: updatedbook
         })
         
     } catch (error) {

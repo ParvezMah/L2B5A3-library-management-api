@@ -34,7 +34,7 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
         "__v": 0
     }
 }
-  ```
+```
 - **Delete a book**
 - **Automatic availability updates** when book copies run out
 

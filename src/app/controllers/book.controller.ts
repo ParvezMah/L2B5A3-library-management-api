@@ -84,23 +84,30 @@ bookRoutes.get('/:bookId', async (req:Request, res:Response)=> {
 })
 
 
-bookRoutes.patch('/:bookId', async (req:Request, res:Response)=> {
+bookRoutes.put('/:bookId', async (req:Request, res:Response)=> {
     try {
         const bookId = req.params.bookId;
         const updatedBody = req.body;
-        const book = await Book.findByIdAndUpdate(bookId, updatedBody, {new: true})
+        const updatedbook = await Book.findByIdAndUpdate(bookId, updatedBody, {new: true})
+
+        if(!updatedbook){
+            return res.status(404).json({
+                success: false,
+                message: "Book not found to update"
+            })
+        }
 
         res.status(201).json({
             success: true,
-            message: "Books has Updated with data",
-            book
+            message: "Book has Updated with data",
+            updatedbook
         })
         
     } catch (error) {
         console.log(error)
         res.status(400).json({
             success: false,
-            message: 'Your Book Not Found',
+            message: 'Your Book Failed to Updated',
             error
         })
     }

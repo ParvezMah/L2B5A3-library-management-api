@@ -33,8 +33,8 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
         "updatedAt": "2025-07-10T15:40:18.339Z",
         "__v": 0
     }
-}
-```
+  }
+  ```
 - **Delete a book**
 - **Automatic availability updates** when book copies run out
 

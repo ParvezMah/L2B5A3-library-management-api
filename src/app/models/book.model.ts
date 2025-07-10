@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { Model, model, Schema } from "mongoose";
 import { IBook } from "../interfaces/book.interface";
 
 const bookSchema = new Schema<IBook>(
@@ -45,4 +45,29 @@ const bookSchema = new Schema<IBook>(
 )
 
 
-export const Book = model<IBook>('Book', bookSchema);
+bookSchema.pre('save', function(next){
+    console.log(`Book ${this.title} is about to be saved.`);
+    next();
+});
+
+
+bookSchema.post('findOneAndUpdate', function(doc){
+    console.log(`Book ${doc.title} has been updated.`)
+});
+
+
+bookSchema.statics.updateAvailability = async function (bookId: string) {
+    const book = await this.findById(bookId);
+    if(!book) throw new Error('Book not found');
+
+    book.available = book.copies > 0;
+    await book.save()
+}
+
+
+export interface IBookModel extends Model<IBook>{
+    updateAvailability(bookId:string):Promise<void>;
+}
+
+
+export const Book = model<IBook, IBookModel>('Book', bookSchema);

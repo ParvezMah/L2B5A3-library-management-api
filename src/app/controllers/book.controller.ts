@@ -29,7 +29,7 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
 
 bookRoutes.get('/', async (req:Request, res:Response)=> {
     try {
-        const {filter, sortBy='createdAt', sort='desc', limit='4', page='1'} = req.query;
+        const {filter, sortBy='createdAt', sort='desc', limit='5', page='1'} = req.query;
         console.log("ReqQuery : ", req.query);
 
         const filterQuery = filter ? {genre: filter} : {};
@@ -41,7 +41,7 @@ bookRoutes.get('/', async (req:Request, res:Response)=> {
         .sort({[sortBy as string]: sort==='desc'? -1 : 1})
         .skip(skipPage)
         .limit(limitNumber);
-        console.log('Filtered Book : ', books)
+        // console.log('Filtered Book : ', books)
         // console.log("Book Received : ", book)
 
         res.status(200).json({

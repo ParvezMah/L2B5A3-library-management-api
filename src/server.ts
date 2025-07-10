@@ -3,6 +3,7 @@ import app from "./app";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 
+
 const PORT = 3000;
 let server: Server;
 
@@ -15,7 +16,7 @@ async function main(){
             console.log(`Library management API is running on : ${PORT}`)
         })
     } catch (error) {
-        console.log(error)
+        console.error("Failed to connect to MongoDB : ", error);
     }
 }
 

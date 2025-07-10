@@ -1,4 +1,4 @@
-import express, { Request, Response, response } from "express"
+import express, { Request, Response } from "express"
 import { Book } from "../models/book.model";
 
 
@@ -24,7 +24,7 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
                 error: error,
             });
         }
-        
+
         res.status(400).json({
             success: false,
             message: 'Creating book has failed',

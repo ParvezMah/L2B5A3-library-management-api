@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import { Book } from '../models/book.model';
 import { Borrow } from '../models/borrow.model';
+import { error } from 'console';
 
 
 export const borrowRoutes = express.Router()
@@ -12,27 +13,55 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         if(!book || !quantity || !dueDate){
             return res.status(400).json({
                 success:false,
-                message: 'Book, Quantity and DueDate are required'
+                message: 'Validation failed',
+                error : {
+                    type : 'MissingFields',
+                    details : 'Book, Quantity and DueDate are required'
+                }
             });
         }
 
-        const foundbook = await Book.findById(book);
-        if(!foundbook){
-            return res.status(404).json({
-                success: false,
-                message: 'Book not Found',
-            })
-        }
-        if(foundbook.copies < quantity){
+        // const foundBook = await Book.findById(book);
+        // if(!foundBook){
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: 'Borrow Failed',
+        //         error: {
+        //             type: 'Not Found',
+        //             details: 'Book Not Found with given ID'
+        //         }
+        //     })
+        // }
+        // if(foundBook.copies < quantity){
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: 'Validation failed',
+        //         error : {
+        //             type: 'BorrowError',
+        //             details: 'Not enough copies available to borrow'
+        //         }
+        //     });
+        // }
+
+
+        // foundBook.copies -= quantity;
+        // await foundBook.save();
+
+        const foundBook = await Book.findOneAndUpdate(
+            {_id: book, copies: {$gte : quantity}}, {$inc: {copies: -quantity}},{new:true}
+        );
+
+        if(!foundBook){
             return res.status(400).json({
                 success: false,
-                message: 'Not enough copies available to borrow',
-            });
+                message: 'Validation failed',
+                error: {
+                    type: 'BorrowError',
+                    details: 'Not Enogh copies availble to borrow'
+                }
+            })
         }
 
-
-        foundbook.copies -= quantity;
-        await foundbook.save();
 
         await Book.updateAvailability(book);
 
@@ -43,7 +72,8 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         return res.status(201).json({
             success: true,
             message: 'Borrowing book Successfully',
-            data: borrowRecord
+            data: borrowRecord,
+            foundBook
         })
         
     } catch (error: any) {

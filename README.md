@@ -5,46 +5,20 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
 ## Features
 
 ### Book Management
-- **Create a book** - `
-- **Get all books** with filtering, sorting, and pagination
-- **Get a book information**
-- **Update book information**
-  `PUT - /api/books/686fc8373ce530d1ea40981a`
-  ```
-  {
-    "copies": 10
-  }
-  ```
-  `Response`
-  ```
-  {
-    "success": true,
-    "message": "Book has Updated with data",
-    "updatedbook": {
-        "_id": "686fc8373ce530d1ea40981a",
-        "title": "The Theory of Nature",
-        "author": "JC Penny",
-        "genre": "SCIENCE",
-        "isbn": "9780553380188",
-        "description": "An overview of Nature.",
-        "copies": 10, // Updated
-        "available": true,
-        "createdAt": "2025-07-10T14:03:35.430Z",
-        "updatedAt": "2025-07-10T15:40:18.339Z",
-        "__v": 0
-    }
-  }
-  ```
-- **Delete a book**
-- **Automatic availability updates** when book copies run out
+- **Create a book** `POST: /api/book/create-book`
+- **Get all books** with filtering, sorting, and pagination `GET: http://localhost:3000/api/books?filter=FANTASY&sortBy=createdAt&sort=desc&limit=20&page=1`
+- **Get a book information** `GET: /api/books/:bookId`
+- **Update book information** `PUT: /api/books/:bookId`
+- **Delete a book** `DELETE: /api/books/:bookId`
+- **Automatic updates** are `available` when book copies run out
 
 ### Borrowing System
-- **Borrow a book**
+- **Borrow a book** `POST: /api/borrow`
 - Ensures enough copies are available
 - Deducts from inventory
 - Updates availability
 
-- **Borrowed Books Summary**
+- **Borrowed Books Summary** `GET: /api/borrow`
 - Aggregates the total quantity borrowed
 - Shows book title and ISBN
 
@@ -65,17 +39,6 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
 | Tools        | Postman              |
 
 
-## Project Structure
-
-```
-/src
-  /controllers
-  /interfaces
-  /models
-app.ts
-server.ts
-```
-
 ## Start Projects
 ```
 git clone <Repository>
@@ -89,8 +52,9 @@ npm run build
 npm run start:dev
 ```
 
-
-## API Endpoints
+## Deployment 
+Deployed on Vercel
+Production Live Link : `https://library-management-api-sand-beta.vercel.app/` Not Found Right now
 
 
 ## Video Demo (Optional)
@@ -98,6 +62,7 @@ npm run start:dev
 
 ## Author
 **Parvez Mahamud**
+A passionate full stack developer on a mission to serve indstries with powerful APIs.
 
 
 ## Note on Plagiarism

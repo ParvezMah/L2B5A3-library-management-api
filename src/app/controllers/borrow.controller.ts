@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import { Book } from '../models/book.model';
 import { Borrow } from '../models/borrow.model';
 import { error } from 'console';
+import { Types } from 'mongoose';
 
 
 export const borrowRoutes = express.Router()
@@ -92,7 +93,8 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
     }
 });
 
-borrowRoutes.get('/', async (req:Request, res:Response)=>{
+
+borrowRoutes.get('/', async (req: Request, res: Response) => {
     try {
         const bookSummary = await Borrow.aggregate([
             {
@@ -137,4 +139,64 @@ borrowRoutes.get('/', async (req:Request, res:Response)=>{
             error
         })
     }
-})
+});
+
+
+borrowRoutes.get('/:bookId', async (req: Request, res: Response) => {
+    try {
+        const bookId = new Types.ObjectId(req.params.bookId);
+        const bookSummary = await Borrow.aggregate([
+            {
+                $match: {book: bookId}
+            },
+            {
+                $group : {
+                    _id: '$book',
+                    totalQuantity: {$sum: '$quantity'}
+                }      
+            },
+            {
+                $lookup : {
+                    from: 'books',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'bookInfo'
+                }
+            },
+            {
+                $unwind : '$bookInfo'
+            },
+            {
+                $project : {
+                    _id: 0,
+                    book: {
+                        title : '$bookInfo.title',
+                        isbn: '$bookInfo.isbn'
+                    },
+                    totalQuantity: 1
+                }
+            }
+        ]);
+
+
+        if(bookSummary.length ===0){
+            return res.status(404).json({
+            success: false,
+            message: 'No borrow record found for this book',
+        })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Borrowed books summary retrived successfully',
+            bookSummary
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(400).json({
+            success: false,
+            message: 'Failed to retrive borrow summary',
+            error
+        })
+    }
+});

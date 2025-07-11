@@ -36,8 +36,8 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
 
 bookRoutes.get('/', async (req:Request, res:Response)=> {
     try {
-        const {filter, sortBy='createdAt', sort='desc', limit='5', page='1'} = req.query;
-        console.log("ReqQuery : ", req.query);
+        const {filter, sortBy='createdAt', sort='desc', limit='10', page='1'} = req.query;
+        // console.log("ReqQuery : ", req.query);
 
         const filterQuery = filter ? {genre: filter} : {};
         const pageNumber = parseInt(page as string) || 1;

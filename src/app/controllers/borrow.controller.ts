@@ -47,17 +47,17 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         // foundBook.copies -= quantity;
         // await foundBook.save();
 
-        const foundBook = await Book.findOneAndUpdate(
+        const updatedAfterborrowedBook = await Book.findOneAndUpdate(
             {_id: book, copies: {$gte : quantity}}, {$inc: {copies: -quantity}},{new:true}
         );
 
-        if(!foundBook){
+        if(!updatedAfterborrowedBook){
             return res.status(400).json({
                 success: false,
                 message: 'Validation failed',
                 error: {
                     type: 'BorrowError',
-                    details: 'Not Enogh copies availble to borrow'
+                    details: 'Book Not Found'
                 }
             })
         }
@@ -73,7 +73,7 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
             success: true,
             message: 'Borrowing book Successfully',
             data: borrowRecord,
-            foundBook
+            updatedAfterborrowedBook
         })
         
     } catch (error: any) {

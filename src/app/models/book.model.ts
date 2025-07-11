@@ -1,5 +1,6 @@
-import { Model, model, Schema } from "mongoose";
+import mongoose, { Model, model, Schema } from "mongoose";
 import { IBook } from "../interfaces/book.interface";
+import { Borrow } from "./borrow.model";
 
 const bookSchema = new Schema<IBook>(
     {
@@ -57,11 +58,35 @@ bookSchema.post('findOneAndUpdate', function(doc){
 
 
 bookSchema.statics.updateAvailability = async function (bookId: string) {
-    const book = await this.findById(bookId);
-    if(!book) throw new Error('Book not found');
+    const borrowedSummery = await Borrow.aggregate([
+        {
+            $match : {
+                book : new mongoose.Types.ObjectId(bookId)
+            }
+        },
+        {
+            $group : {
+                _id : '$book', 
+                totalBorrowed : {
+                    $sum : '$quantity'
+                }
+            }
+        }
+    ]);
 
-    book.available = book.copies > 0;
+    const totalBorrowed = borrowedSummery.length > 0 ? borrowedSummery[0].totalBorrowed : 0;
+
+    const book = await this.findById(bookId)
+
+    if(!book) return;
+
+    const availableCopies = book.copies - totalBorrowed
+
+    book.available = availableCopies > 0;
+
     await book.save()
+
+    return book
 }
 
 

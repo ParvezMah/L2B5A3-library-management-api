@@ -22,6 +22,10 @@ A full-featured Library Management System built with **Express.js**, **TypeScrip
 - Aggregates the total quantity borrowed
 - Shows book title and ISBN
 
+- **Borrowed Books Summary for Single Book** `GET: /api/borrow/:bookId`
+- Aggregates the total quantity borrowed
+- Shows book title and ISBN
+
 
 ### Validation & Business Logic
 - Schema validation (genre enum, required fields, quantity limits)

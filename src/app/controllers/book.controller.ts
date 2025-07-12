@@ -18,7 +18,7 @@ bookRoutes.post('/create-book',  async (req:Request, res:Response)=> {
         
     } catch (error: any) {
         if(error.name === "ValidationError"){
-            return res.status(400).json({
+            res.status(400).json({
                 message: 'Validation Failed',
                 success : false,
                 error: error,
@@ -98,7 +98,7 @@ bookRoutes.put('/:bookId', async (req:Request, res:Response)=> {
         const updatedbook = await Book.findByIdAndUpdate(bookId, updatedBody, {new: true})
 
         if(!updatedbook){
-            return res.status(404).json({
+            res.status(404).json({
                 success: false,
                 message: "Book not found to update"
             })

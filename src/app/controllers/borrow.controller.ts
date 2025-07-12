@@ -12,7 +12,7 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         const {book, quantity, dueDate} = req.body;
 
         if(!book || !quantity || !dueDate){
-            return res.status(400).json({
+            res.status(400).json({
                 success:false,
                 message: 'Validation failed',
                 error : {
@@ -53,7 +53,7 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         );
 
         if(!updatedAfterborrowedBook){
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 message: 'Validation failed',
                 error: {
@@ -70,7 +70,7 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
 
         
 
-        return res.status(201).json({
+        res.status(201).json({
             success: true,
             message: 'Borrowing book Successfully',
             data: borrowRecord,
@@ -79,13 +79,13 @@ borrowRoutes.post('/', async (req:Request, res:Response)=>{
         
     } catch (error: any) {
         if(error.name  === "ValidationError"){
-            return res.status(400).json({
+            res.status(400).json({
                 message: 'Validation Failed',
                 success : false,
                 error: error,
             });
         }
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
             message: 'Borrowing book failed',
             error
@@ -126,14 +126,14 @@ borrowRoutes.get('/', async (req: Request, res: Response) => {
             }
         ]);
 
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             message: 'Borrowed books summary retrived successfully',
             bookSummary
         })
     } catch (error) {
         console.error(error);
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
             message: 'Failed to retrive borrow summary',
             error
@@ -180,20 +180,20 @@ borrowRoutes.get('/:bookId', async (req: Request, res: Response) => {
 
 
         if(bookSummary.length ===0){
-            return res.status(404).json({
+            res.status(404).json({
             success: false,
             message: 'No borrow record found for this book',
         })
         }
 
-        return res.status(200).json({
+        res.status(200).json({
             success: true,
             message: 'Borrowed books summary retrived successfully',
             bookSummary
         })
     } catch (error) {
         console.error(error);
-        return res.status(400).json({
+        res.status(400).json({
             success: false,
             message: 'Failed to retrive borrow summary',
             error

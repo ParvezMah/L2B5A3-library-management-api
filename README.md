@@ -58,11 +58,7 @@ npm run start:dev
 
 ## Deployment 
 Deployed on Vercel
-Production Live Link : `https://library-management-api-sand-beta.vercel.app/` Not Found Right now
-
-
-## Video Demo (Optional)
-[![Assignment Project Overview](https://drive.google.com/file/d/1YWDCX3rjlw15P9nIp2wAAJdR9xdWEA4R/view?usp=sharing)
+Production Live Link : `https://library-management-api-ruddy.vercel.app/` Not Found Right now
 
 
 

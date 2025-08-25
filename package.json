@@ -7,7 +7,7 @@
     "start": "node ./dist/server.js",
     "start:prod": "nodemon ./dist/server.js",
     "start:dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "build":"tsc",
+    "build": "tsc",
     "lint": "npx eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,12 +16,14 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.10",
     "@typescript-eslint/eslint-plugin": "^8.36.0",

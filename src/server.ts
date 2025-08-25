@@ -1,8 +1,7 @@
-import { Server } from "http";
-import app from "./app";
-import { Request, Response } from "express";
-import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import { Server } from "http";
+import mongoose from "mongoose";
+import app from "./app";
 
 dotenv.config();
 

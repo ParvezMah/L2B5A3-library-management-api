@@ -1,11 +1,17 @@
 import express, {Application, Request, Response,} from "express";
 import { bookRoutes } from "./app/controllers/book.controller";
 import { borrowRoutes } from "./app/controllers/borrow.controller";
+import cors from "cors";
 
 
 
 
 const app: Application = express()
+
+// Allow frontend to access API
+app.use(cors({
+    origin: ["http://localhost:5173", "https://library-management-api-ruddy.vercel.app"],
+}));
 
 
 // Middlewares

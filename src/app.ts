@@ -10,7 +10,7 @@ const app: Application = express()
 
 // Allow frontend to access API
 app.use(cors({
-    origin: ["http://localhost:5173", "https://library-management-api-ruddy.vercel.app"],
+    origin: ["http://localhost:5173", "https://frontend-nine-rose-41.vercel.app"],
 }));
 
 
